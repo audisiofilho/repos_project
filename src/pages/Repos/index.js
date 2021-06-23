@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import { Container } from "./styles";
+import { Container, Owner, Loading, BackButton } from "./styles";
+import { FaArrowLeft } from 'react-icons/fa';
 import api from "../../services/api";
 
-//
 export default function Repos({ match }) {
 
   const [repos, setRepos] = useState({});
@@ -32,10 +32,28 @@ export default function Repos({ match }) {
     load();
   }, [match.params.repos]);
 
+  if(loading){
+    return(
+      <Loading>
+        <h1>Carregando...</h1>
+      </Loading>
+
+    )
+  }
+
   return(
 
-  <Container>
-
-  </Container>
+    <Container>
+      <BackButton to="/">
+        <FaArrowLeft color="#000" size={30}/>
+      </BackButton>
+      <Owner>
+        <img src={repos.owner.avatar_url} 
+        alt={repos.owner.login}
+        />
+        <h1>{repos.name}</h1>
+        <p>{repos.description}</p>
+      </Owner>
+    </Container>
   );
 }
